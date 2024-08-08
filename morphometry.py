@@ -399,6 +399,18 @@ def display(input_raster, colormap='jet', background=None, background_colormap="
     return figure, ax
 
 
+def write(input_raster, path):
+    """
+    Write the raster.
+    :param input_raster: 
+    :param path: 
+    """
+    with rasterio.Env():
+        profile = input_raster.profile
+        with rasterio.open(path, 'w', **profile) as dst:
+            dst.write(input_raster.read(1), 1)
+
+
 def _process_hillshade(inputs):
     raster = inputs[0]
     azimuth, elev_angle, z_factor = inputs[1]
