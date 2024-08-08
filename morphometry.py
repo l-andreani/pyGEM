@@ -201,12 +201,12 @@ def relief(input_dem, ksize=3, multiprocess=False):
     else:
         local_relief = _process_local_relief([raster.read(1), [raster.nodata, ksize]])
 
-    local_relief[raster.read(1) == raster.nodata] = -9999
+    local_relief[raster.read(1) == raster.nodata] = 0
 
     memfile = rasterio.MemoryFile()
     src = memfile.open(driver='GTiff', count=1, width=raster.width, height=raster.height,
                        dtype=raster.dtypes[0], crs=raster.crs, transform=raster.transform,
-                       nodata=-9999, )
+                       nodata=0, )
     src.write(local_relief, 1)
     del memfile
 
