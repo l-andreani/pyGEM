@@ -7,5 +7,6 @@ from .morphometry import (hillshade,
                           hypsometry,
                           roughness,
                           median,
-                          display)
+                          display,
+                          write)
 from .swath_profile import SwathProfile
