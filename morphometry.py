@@ -109,13 +109,13 @@ def slope(input_dem, integer=False):
     print(clock() + ' Computing Slope...')
     input_raster = rasterio.open(input_dem)
     raster = input_raster.read(1).astype("float32")
-    if raster.nodata is not None:
-        raster[raster.read(1) == input_raster.nodata] = np.nan
+    if input_raster.nodata is not None:
+        raster[raster == input_raster.nodata] = np.nan
     dx = cv2.Sobel(raster, cv2.CV_64F, 1, 0, 3) / (8 * input_raster.res[0])
     dy = cv2.Sobel(raster, cv2.CV_64F, 0, 1, 3) / (8 * input_raster.res[1])
     slp = np.arctan(np.sqrt(dx ** 2 + dy ** 2)) * 180 / np.pi
     slp[np.isnan(slp)] = 0
-    slp[raster.read(1) == input_raster.nodata] = -1
+    slp[raster == input_raster.nodata] = -1
 
     if integer is True:
         slp = slp.astype('int16')
